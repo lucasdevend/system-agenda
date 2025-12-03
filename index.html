@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nail Designer - Emilly Rodrigues</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- =============== MENU =============== -->
+<nav class="menu">
+    <div class="menu-container">
+        <h3>Agende seu horario aqui</h3>
+
+        <ul>
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#depoimentos">Depoimentos</a></li>
+            <li><a href="#agendamento">Agendamento</a></li>
+        </ul>
+    </div>
+
+</nav>
+
+
+<!-- =============== HERO =============== -->
+<header class="hero">
+    <div class="hero-container">
+        
+        <div class="foto-wrapper">
+            <img src="imgs/Gemini_Generated_Image_gsp041gsp041gsp0.png" alt="Foto da Emilly">
+        </div>
+
+        <div class="hero-info">
+            <h1 class="nome">Nail Designer Emy</h1>
+            <p class="idade">20 anos</p>
+            <p class="descricao">
+                Especialista em alongamento, esmaltação e nail art personalizada. 
+                Unhas impecáveis para você se sentir ainda mais poderosa!
+            </p>
+
+            <a href="#servicos" class="cta-btn">Agendar Agora</a>
+        </div>
+
+    </div>
+</header>
+
+<!-- =============== SERVIÇOS =============== -->
+<section id="servicos" class="servicos">
+    <h2>Serviços</h2>
+
+    <div class="servico-card" data-nome="Molde f1" data-preco="80">
+        <h3>Molde f1</h3>
+        <p class="preco">R$ 80,00</p>
+    </div>
+
+    <div class="servico-card" data-nome="Manicure" data-preco="15">
+        <h3>Manicure</h3>
+        <p class="preco">R$ 15,00</p>
+    </div>
+
+    <div class="servico-card" data-nome="Pedicure" data-preco="30">
+        <h3>Pedicure</h3>
+        <p class="preco">R$ 30,00</p>
+    </div>
+
+    <div class="servico-card" data-nome="Banho de gel" data-preco="30">
+        <h3>Banho de gel</h3>
+        <p class="preco">R$ 30,00</p>
+    </div>
+
+    <!-- Box de resumo -->
+    <div id="resumo-box">
+        <h3>Resumo do Pedido</h3>
+        <ul id="lista-resumo"></ul>
+        <p id="total-resumo">Total: R$ 0,00</p>
+    </div>
+</section>
+
+<div id="endereco" class="endereco">
+    <p>📍 Endereço: Rua Chile, n°32, Bairro Crispim, Itapecerica da Serra</p>
+</div>
+
+
+
+<!-- =============== DEPOIMENTOS =============== -->
+<section class="depoimentos">
+    <h2>Depoimentos</h2>
+
+    <div class="depo-card">"Melhor trabalho que já fiz nas minhas unhas!" – Ana</div>
+    <div class="depo-card">"Muito capricho e cuidado. Recomendo demais!" – Júlia</div>
+</section>
+
+<!-- =============== AGENDAMENTO =============== -->
+<section id="agendamento" class="agenda">
+    <h2>Agendamento</h2>
+
+    <div class="agenda-box">
+        <label>Escolha o dia:</label>
+        <input type="date" id="data">
+
+        <label>Escolha o horário:</label>
+        <select id="horario">
+            <option value="">Selecione...</option>
+        </select>
+
+        <button class="cta-btn" onclick="enviarWhatsApp()">Confirmar no WhatsApp</button>
+    </div>
+
+    <h3>Horários já agendados</h3>
+    <ul id="ocupados"></ul>
+</section>
+
+<script src="script.js"></script>
+<script src="adm.js"></script>
+
+</body>
+</html>
