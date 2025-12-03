@@ -237,4 +237,9 @@ window.enviarWhatsApp = async function () {
     selecionados = [];
     atualizarResumo();
     renderizarHorarios();
-};
+}
+
+// Liga botão WhatsApp ao JS
+const btnWhatsApp = document.querySelector(".cta-btn");
+btnWhatsApp.addEventListener("click", enviarWhatsApp)
+
