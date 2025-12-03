@@ -255,6 +255,13 @@ input:focus, select:focus {
     max-width: 250px;
 }
 
+
+.aviso {
+    color: #ff4fa1;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
 /* ===================== ANIMAÇÕES GERAIS ===================== */
 .section {
     opacity: 0;

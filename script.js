@@ -66,10 +66,9 @@ let horarioSelecionado = null;
 let horariosOcupados = [];
 
 const horariosFixos = [
-    "09:00","09:30","10:00","10:30",
-    "11:00","11:30","13:00","13:30",
-    "14:00","14:30","15:00","15:30",
-    "16:00","16:30"
+    "08:00","09:00","10:00",
+    "11:00","12:00","13:00","13:30",
+    "14:00"
 ];
 
 function ouvirHorariosOcupados(dataSelecionada) {
@@ -106,10 +105,34 @@ function renderizarHorarios() {
 
 horarioSelect.addEventListener("change", () => horarioSelecionado = horarioSelect.value);
 
+const avisoDias = document.getElementById("aviso-dias");
+
 dataInput.addEventListener("change", () => {
+    if (!dataInput.value) return;
+
+    const partes = dataInput.value.split("-"); // ["YYYY","MM","DD"]
+    const ano = parseInt(partes[0], 10);
+    const mes = parseInt(partes[1], 10) - 1; // JS: 0 = Janeiro
+    const dia = parseInt(partes[2], 10);
+
+    const data = new Date(ano, mes, dia);
+    const diaSemana = data.getDay(); // 0 = Domingo, 1 = Segunda, 2 = Terça...
+
+    if (diaSemana !== 0 && diaSemana !== 2) {
+        alert("Somente terças e domingos estão disponíveis para agendamento.");
+        avisoDias.style.display = "block"; // mostra aviso
+        dataInput.value = "";
+        horarioSelecionado = null;
+        horariosOcupados = [];
+        renderizarHorarios();
+        return;
+    }
+
+    // dia válido: atualiza horários ocupados
+    avisoDias.style.display = "none"; // esconde aviso se dia válido
     horarioSelecionado = null;
     horariosOcupados = [];
-    if (dataInput.value) ouvirHorariosOcupados(dataInput.value);
+    ouvirHorariosOcupados(dataInput.value);
 });
 
 
