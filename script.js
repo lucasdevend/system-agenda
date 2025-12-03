@@ -1,3 +1,25 @@
+/* ===================== FIREBASE CONFIG ===================== */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { 
+    getFirestore, collection, getDocs, setDoc, doc,
+    addDoc, query, where, onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDrkxJHq0zmjTdTBGyCNSVdxanECvD7gh8",
+    authDomain: "emillyfirfebase.firebaseapp.com",
+    projectId: "emillyfirfebase",
+    storageBucket: "emillyfirfebase.firebasestorage.app",
+    messagingSenderId: "24875221884",
+    appId: "1:24875221884:web:ebae868d5fcc109d8cdaf9",
+    measurementId: "G-J2BPH5TRGB"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+
 /* ===================== SELEÇÃO DE SERVIÇOS ===================== */
 
 const servicoCards = document.querySelectorAll(".servico-card");
@@ -5,16 +27,13 @@ const resumoBox = document.getElementById("resumo-box");
 const listaResumo = document.getElementById("lista-resumo");
 const totalResumo = document.getElementById("total-resumo");
 
-
 let selecionados = [];
 
-// clique nos cards
 servicoCards.forEach(card => {
     card.addEventListener("click", () => {
         const nome = card.dataset.nome;
         const preco = Number(card.dataset.preco);
 
-        // selecionado ↔ des-selecionado
         if (card.classList.contains("selected")) {
             card.classList.remove("selected");
             selecionados = selecionados.filter(item => item.nome !== nome);
@@ -27,7 +46,6 @@ servicoCards.forEach(card => {
     });
 });
 
-// resumo dos serviços
 function atualizarResumo() {
     listaResumo.innerHTML = "";
 
@@ -51,130 +69,172 @@ function atualizarResumo() {
 }
 
 
-
 /* ===================== AGENDAMENTO ===================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+const dataInput = document.getElementById("data");
+const horarioSelect = document.getElementById("horario"); // substitui horariosContainer
+const nomeInput = document.getElementById("nome"); // certifique-se de ter <input id="nome">
+const confirmarBtn = document.querySelector(".cta-btn"); // botão "Confirmar no WhatsApp"
 
-    // horários fixos
-    const horarios = [
-        "09:00", "10:00", "11:00",
-        "13:00", "14:00", "15:00",
-        "16:00", "17:00"
-    ];
+let horarioSelecionado = null;
+let horariosOcupados = [];
 
-    // carregar do localStorage
-    let ocupados = JSON.parse(localStorage.getItem("agendamentos")) || [];
+const horariosFixos = [
+    "09:00","09:30","10:00","10:30",
+    "11:00","11:30","13:00","13:30",
+    "14:00","14:30","15:00","15:30",
+    "16:00","16:30"
+];
 
-    const selectHorario = document.getElementById("horario");
-    const listaOcupados = document.getElementById("ocupados");
-    const inputData = document.getElementById("data");
+// 🔥 OUVE EM TEMPO REAL TODOS AGENDAMENTOS DA DATA
+function ouvirHorariosOcupados(dataSelecionada) {
+    const q = query(
+        collection(db, "agendamentos"),
+        where("data", "==", dataSelecionada)
+    );
 
-    if (!selectHorario || !listaOcupados || !inputData) {
-        console.error("ERRO: Elementos do agendamento não foram encontrados!");
-        return;
-    }
-
-    /* ===== Bloquear datas antigas ===== */
-    function bloquearDatasPassadas() {
-        const hoje = new Date().toISOString().split("T")[0];
-        inputData.setAttribute("min", hoje);
-    }
-    bloquearDatasPassadas();
-
-                    /* ===== Atualizar lista de horários ===== */
-    inputData.addEventListener("change", atualizarHorarios);
-
-    function atualizarHorarios() {
-        selectHorario.innerHTML = `<option value="">Selecione...</option>`;
-        listaOcupados.innerHTML = "";
-
-        const dataEscolhida = inputData.value;
-        if (!dataEscolhida) return;
-
-        const hoje = new Date().toISOString().split("T")[0];
-        const agora = new Date();
-
-        const ocupadosNoDia = ocupados.filter(o => o.data === dataEscolhida);
-
-        horarios.forEach(h => {
-            const jaOcupado = ocupadosNoDia.some(o => o.horario === h);
-
-            let horarioPassado = false;
-            if (dataEscolhida === hoje) {
-                const [hh, mm] = h.split(":");
-                const horaDate = new Date();
-                horaDate.setHours(hh, mm, 0);
-
-                if (horaDate.getTime() < agora.getTime()) {
-                    horarioPassado = true;
-                }
-            }
-
-            if (jaOcupado || horarioPassado) {
-                const li = document.createElement("li");
-
-                if (jaOcupado) {
-                    li.textContent = `${h} — Ocupado (Data: ${dataEscolhida})`;
-                    li.classList.add("ocupado");
-                } else {
-                    li.textContent = `${h} — Indisponível (Horário já passou)`;
-                    li.classList.add("passado");
-                }
-
-                li.classList.add("animar-item");
-                listaOcupados.appendChild(li);
-            } else {
-            selectHorario.innerHTML += `<option value="${h}">${h}</option>`;
-        }
+    onSnapshot(q, (snapshot) => {
+        horariosOcupados = snapshot.docs.map(doc => doc.data().horario);
+        renderizarHorarios();
     });
 }
 
+// Atualiza <select> com horários disponíveis
+function renderizarHorarios() {
+    horarioSelect.innerHTML = '<option value="">Selecione...</option>';
 
+    horariosFixos.forEach(hora => {
+        const option = document.createElement("option");
+        option.value = hora;
+        option.textContent = hora;
 
-    /* ===== Enviar WhatsApp + bloquear horário ===== */
-
-    window.enviarWhatsApp = function () {
-        const data = inputData.value;
-        const hora = selectHorario.value;
-
-        if (!data || !hora) {
-            alert("Selecione data e horário.");
-            return;
+        if (horariosOcupados.includes(hora)) {
+            option.disabled = true;
         }
 
-        if (selecionados.length === 0) {
-            alert("Selecione pelo menos um serviço!");
-            return;
+        if (horarioSelecionado === hora) {
+            option.selected = true;
         }
 
-        ocupados.push({ data, horario: hora });
-        atualizarHorarios();
+        horarioSelect.appendChild(option);
+    });
+}
 
-        // ===== RESUMO DOS SERVIÇOS =====
-        let listaServicos = "";
-        let total = 0;
-
-        selecionados.forEach(item => {
-            listaServicos += `• ${item.nome} — R$ ${item.preco.toFixed(2)}\n`;
-            total += item.preco;
-        });
-
-        const endereco = "📍 Endereço: Rua Chile, n°32, Bairro Crispim, Itapecerica da Serra";
-
-        const resumoFinal = `Resumo do Pedido:\n${listaServicos}\nTotal: R$ ${total.toFixed(2)}`;
-
-        // ===== MENSAGEM COMPLETA =====
-        const msg = encodeURIComponent(
-            `Olá! Gostaria de agendar:\n` +
-            `📅 *Data:* ${data}\n` +
-            `⏰ *Horário:* ${hora}\n\n` +
-            `${resumoFinal}\n\n${endereco}`
-        );
-
-        const numero = "5511991421107";
-
-        window.open(`https://wa.me/${numero}?text=${msg}`, "_blank");
-        
-    };
+// Atualiza horarioSelecionado ao escolher no <select>
+horarioSelect.addEventListener("change", () => {
+    horarioSelecionado = horarioSelect.value;
 });
+
+// Atualiza ao mudar data
+dataInput.addEventListener("change", () => {
+    const data = dataInput.value;
+    horarioSelecionado = null;
+    horariosOcupados = [];
+
+    if (data) {
+        ouvirHorariosOcupados(data);
+    }
+});
+
+// Confirmar agendamento e salvar no Firebase
+confirmarBtn.addEventListener("click", async () => {
+    const data = dataInput.value;
+    const nome = nomeInput.value;
+
+    if (!data || !horarioSelecionado || !nome) {
+        alert("Preencha todos os campos!");
+        return;
+    }
+
+    const q = query(
+        collection(db, "agendamentos"),
+        where("data", "==", data),
+        where("horario", "==", horarioSelecionado)
+    );
+
+    const resultado = await getDocs(q);
+
+    if (!resultado.empty) {
+        alert("Esse horário acabou de ser ocupado. Escolha outro.");
+        return;
+    }
+
+    await addDoc(collection(db, "agendamentos"), {
+        nome: nome,
+        data: data,
+        horario: horarioSelecionado
+    });
+
+    alert("Agendado com sucesso!");
+    renderizarHorarios(); // atualiza select imediatamente
+});
+
+
+/* ===================== ENVIAR PARA WHATSAPP ===================== */
+
+window.enviarWhatsApp = async function () {
+
+    const data = dataInput.value;
+    const nome = nomeInput.value;
+
+    if (!data || !horarioSelecionado || !nome) {
+        alert("Preencha todos os campos!");
+        return;
+    }
+
+    if (selecionados.length === 0) {
+        alert("Selecione pelo menos um serviço!");
+        return;
+    }
+
+    // Verifica novamente se o horário já está ocupado (atualizado em tempo real)
+    const q = query(
+        collection(db, "agendamentos"),
+        where("data", "==", data),
+        where("horario", "==", horarioSelecionado)
+    );
+
+    const resultado = await getDocs(q);
+
+    if (!resultado.empty) {
+        alert("Esse horário acabou de ser ocupado. Escolha outro.");
+        renderizarHorarios(); // atualiza a lista imediatamente
+        return;
+    }
+
+    // Salva no Firebase antes de abrir WhatsApp
+    await addDoc(collection(db, "agendamentos"), {
+        nome: nome,
+        data: data,
+        horario: horarioSelecionado
+    });
+
+    // Monta a mensagem de WhatsApp
+    let listaServicos = "";
+    let total = 0;
+
+    selecionados.forEach(item => {
+        listaServicos += `• ${item.nome} — R$ ${item.preco.toFixed(2)}\n`;
+        total += item.preco;
+    });
+
+    const endereco = "📍 Endereço: Rua Chile, n°32, Bairro Crispim, Itapecerica da Serra";
+
+    const msg = encodeURIComponent(
+        `Olá! Meu nome é ${nome} e gostaria de agendar:\n` +
+        `📅 *Data:* ${data}\n` +
+        `⏰ *Horário:* ${horarioSelecionado}\n\n` +
+        `Resumo dos serviços:\n${listaServicos}\n` +
+        `Total: R$ ${total.toFixed(2)}\n\n${endereco}`
+    );
+
+    // Abre WhatsApp
+    window.open(`https://wa.me/5511991421107?text=${msg}`, "_blank");
+
+    // Limpa seleção para evitar duplicidade visual
+    horarioSelecionado = null;
+    horarioSelect.value = "";
+    selecionados = [];
+    atualizarResumo();
+    renderizarHorarios();
+};
