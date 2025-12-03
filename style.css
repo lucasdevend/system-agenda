@@ -201,16 +201,38 @@ h2 {
 
 /* ===================== AGENDAMENTO ===================== */
 .agenda-box {
-    background: #ffe4f1;
-    padding: 25px;
-    border-radius: 20px;
-    max-width: 420px;
-    margin: auto;
-    box-shadow: 0 5px 16px rgba(255, 79, 161, 0.2);
+    background-color: #f8f0f8; /* cor de fundo */
+    width: 350px;               /* largura fixa menor que a section */
+    padding: 50px;              /* espaço interno */
+    margin: 20px auto;          /* centraliza horizontalmente */
+    border-radius: 10px;        /* cantos arredondados */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* sombra leve */
+    display: flex;
+    flex-direction: column; /* organiza label e input verticalmente */
+    align-items: center;    /* centraliza horizontalmente */
+    gap: 10px;              /* espaçamento entre label e input */
+
+}
+
+/* Ajusta largura do input */
+.agenda-box input[type="text"] {
+    width: 80%;        /* ou um valor fixo, ex: 250px */
+    max-width: 300px;  /* garante que não fique gigante em telas grandes */
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    text-align: center; /* centraliza o texto digitado */
+}
+
+/* Centraliza também o botão se quiser */
+.agenda-box .cta-btn {
+    width: 50%;
+    max-width: 300px;
+    margin-top: 10px;
 }
 
 input, select {
-    width: 80%;
+    width: 50%;
     padding: 12px;
     margin: 12px 0;
     border-radius: 12px;
@@ -219,13 +241,14 @@ input, select {
     transition: 0.3s;
 }
 
+
 input:focus, select:focus {
     border: 1px solid #ff4fa1;
     box-shadow: 0 0 10px rgba(255, 79, 161, 0.28);
 }
 
 #ocupados li {
-    background: #ffedf5;
+    background: #f5daee;
     padding: 12px;
     border-radius: 12px;
     margin: 6px auto;

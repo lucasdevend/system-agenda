@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <!-- =============== MENU =============== -->
+<!-- =============== MENU =============== -->
 <nav class="menu">
     <div class="menu-container">
         <h3>Agende seu horario aqui</h3>
@@ -19,14 +19,11 @@
             <li><a href="#agendamento">Agendamento</a></li>
         </ul>
     </div>
-
 </nav>
-
 
 <!-- =============== HERO =============== -->
 <header class="hero">
     <div class="hero-container">
-        
         <div class="foto-wrapper">
             <img src="imgs/Gemini_Generated_Image_gsp041gsp041gsp0.png" alt="Foto da Emilly">
         </div>
@@ -41,7 +38,6 @@
 
             <a href="#servicos" class="cta-btn">Agendar Agora</a>
         </div>
-
     </div>
 </header>
 
@@ -81,8 +77,6 @@
     <p>📍 Endereço: Rua Chile, n°32, Bairro Crispim, Itapecerica da Serra</p>
 </div>
 
-
-
 <!-- =============== DEPOIMENTOS =============== -->
 <section class="depoimentos">
     <h2>Depoimentos</h2>
@@ -104,7 +98,11 @@
             <option value="">Selecione...</option>
         </select>
 
-        <button class="cta-btn">Confirmar no WhatsApp</button>
+        <!-- Novo input para nome do cliente -->
+        <label>Seu nome:</label>
+        <input type="text" id="nome" placeholder="Digite seu nome">
+
+        <button id="btn-whatsapp" class="cta-btn">Confirmar no WhatsApp</button>
 
     </div>
 
