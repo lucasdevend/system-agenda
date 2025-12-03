@@ -110,16 +110,15 @@ const avisoDias = document.getElementById("aviso-dias");
 dataInput.addEventListener("change", () => {
     if (!dataInput.value) return;
 
-    const partes = dataInput.value.split("-"); // ["YYYY","MM","DD"]
+    const partes = dataInput.value.split("-");
     const ano = parseInt(partes[0], 10);
-    const mes = parseInt(partes[1], 10) - 1; // JS: 0 = Janeiro
+    const mes = parseInt(partes[1], 10) - 1;
     const dia = parseInt(partes[2], 10);
 
     const data = new Date(ano, mes, dia);
     const diaSemana = data.getDay(); // 0 = Domingo, 1 = Segunda, 2 = Terça...
 
     if (diaSemana !== 0 && diaSemana !== 2) {
-        alert("Somente terças e domingos estão disponíveis para agendamento.");
         avisoDias.style.display = "block"; // mostra aviso
         dataInput.value = "";
         horarioSelecionado = null;
@@ -128,12 +127,12 @@ dataInput.addEventListener("change", () => {
         return;
     }
 
-    // dia válido: atualiza horários ocupados
     avisoDias.style.display = "none"; // esconde aviso se dia válido
     horarioSelecionado = null;
     horariosOcupados = [];
     ouvirHorariosOcupados(dataInput.value);
 });
+
 
 
 /* ===================== FUNÇÃO WHATSAPP ===================== */
