@@ -1,4 +1,4 @@
-/* ===================== FIREBASE CONFIG ===================== */
+/* <<<<< config fire b >>>>>> */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -15,7 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-/* ===================== SELEÇÃO DE SERVIÇOS ===================== */
+/* <<<<<< selecao de servicos >>>>>> */
 const servicoCards = document.querySelectorAll(".servico-card");
 const resumoBox = document.getElementById("resumo-box");
 const listaResumo = document.getElementById("lista-resumo");
@@ -57,7 +57,7 @@ function atualizarResumo() {
     });
     totalResumo.textContent = `Total: R$ ${total.toFixed(2)}`;
 }
-/* ===================== AGENDAMENTO ===================== */
+/* <<<<<< agendamento >>>>>> */
 const dataInput = document.getElementById("data");
 const horarioSelect = document.getElementById("horario");
 const nomeInput = document.getElementById("nome");
@@ -92,7 +92,7 @@ function renderizarHorarios() {
         if (horariosOcupados.includes(hora)) {
             option.disabled = true;
 
-            // Adiciona horário ocupado na lista de baixo
+            // Adicionaa horário ocupado na lista de baixo
             const li = document.createElement("li");
             li.textContent = hora;
             ocupadosList.appendChild(li);
@@ -133,9 +133,7 @@ dataInput.addEventListener("change", () => {
     ouvirHorariosOcupados(dataInput.value);
 });
 
-
-
-/* ===================== FUNÇÃO WHATSAPP ===================== */
+/* <<<<<< funcao zap >>>>>>> */
 function enviarWhatsApp() {
     const data = dataInput.value;
     const nome = nomeInput.value;
@@ -157,15 +155,15 @@ function enviarWhatsApp() {
         total += item.preco;
     });
 
-    const endereco = "📍 Endereço: Rua Chile, n°32, Bairro Crispim, Itapecerica da Serra";
+    const endereco = ">> Endereço: Rua Chile, n°32, Bairro Crispim, Itapecerica da Serra";
     const msg = encodeURIComponent(
-        `Olá! Meu nome é ${nome} e gostaria de agendar:\n📅 Data: ${data}\n⏰ Horário: ${horarioSelecionado}\n\nResumo dos serviços:\n${listaServicos}Total: R$ ${total.toFixed(2)}\n\n${endereco}`
+        `Olá! Meu nome é ${nome} e gostaria de agendar:\n>> Data: ${data}\n>> Horário: ${horarioSelecionado}\n\nResumo dos serviços:\n${listaServicos}Total: R$ ${total.toFixed(2)}\n\n${endereco}`
     );
 
     // Abre WhatsApp imediatamente
-    window.open(`https://wa.me/5511991421107?text=${msg}`, "_blank");
+    window.open(`https://wa.me/5511997525129?text=${msg}`, "_blank");
 
-    // Salva no Firebase depois, sem bloquear o popup
+    // Salva no Firebase depois sem bloquear o popup
         addDoc(collection(db, "agendamentos"), {
             nome,
             data,
@@ -183,7 +181,7 @@ function enviarWhatsApp() {
         .catch(err => console.error("Erro ao salvar agendamento:", err));
 }
 
-/* ===================== LIGA BOTÃO ===================== */
+/* <<<<<< liga o botao >>>>>>> */
 document.addEventListener("DOMContentLoaded", () => {
     const btnWhatsApp = document.getElementById("btn-whatsapp");
     if (btnWhatsApp) {

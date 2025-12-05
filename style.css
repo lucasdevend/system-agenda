@@ -2,7 +2,7 @@ html {
     scroll-behavior: smooth;
 }
 
-/* ===================== RESET ===================== */
+/* >>>>> reset <<<<<*/
 body {
     margin: 0;
     padding-top: 70px;
@@ -11,7 +11,7 @@ body {
     color: #444;
 }
 
-/* ===================== MENU ===================== */
+/* >>>>> menu <<<<< */
 .menu {
     position: fixed;
     top: 0;
@@ -59,7 +59,7 @@ body {
     border-bottom: 2px solid #ff4fa1;
 }
 
-/* ===================== HERO ===================== */
+/* >>>>> hero <<<<< */
 .hero {
     background: linear-gradient(135deg, #ff4fa1, #ffd1e6);
     padding: 120px 30px 80px;
@@ -148,7 +148,7 @@ body {
     box-shadow: 0 10px 20px rgba(255, 79, 161, 0.4);
 }
 
-/* ===================== SEÇÕES ===================== */
+/* >>>>> secoes <<<<< */
 section {
     padding: 70px 20px;
     text-align: center;
@@ -160,7 +160,7 @@ h2 {
     color: #ff4fa1;
 }
 
-/* ===================== SERVIÇOS ===================== */
+/* >>>>> servicos <<<<< */
 .servico-card {
     background: #ffe4f1;
     padding: 25px;
@@ -183,7 +183,7 @@ h2 {
     color: #ff4fa1;
 }
 
-/* ===================== DEPOIMENTOS ===================== */
+/* >>>>> depoimentos <<<<<< */
 .depo-card {
     background: #fff;
     padding: 15px;
@@ -201,32 +201,32 @@ h2 {
     background: #ffeaf6;
 }
 
-/* ===================== AGENDAMENTO ===================== */
+/* >>>>> AGENDAMENTO <<<<<< */
 .agenda-box {
     background-color: #f8f0f8; /* cor de fundo */
     width: 350px;               /* largura fixa menor que a section */
-    padding: 50px;              /* espaço interno */
+    padding: 50px;              /* espaco interno */
     margin: 20px auto;          /* centraliza horizontalmente */
     border-radius: 10px;        /* cantos arredondados */
     box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* sombra leve */
     display: flex;
     flex-direction: column; /* organiza label e input verticalmente */
     align-items: center;    /* centraliza horizontalmente */
-    gap: 10px;              /* espaçamento entre label e input */
+    gap: 10px;              /* espacamento entre label e input */
 
 }
 
 /* Ajusta largura do input */
 .agenda-box input[type="text"] {
     width: 80%;        /* ou um valor fixo, ex: 250px */
-    max-width: 300px;  /* garante que não fique gigante em telas grandes */
+    max-width: 300px;  /* não fica gigante em telas grandes */
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    text-align: center; /* centraliza o texto digitado */
+    text-align: center; /* centra o texto digitado */
 }
 
-/* Centraliza também o botão se quiser */
+/* Centraliza tambem o botao se quiser */
 .agenda-box .cta-btn {
     width: 50%;
     max-width: 300px;
@@ -264,7 +264,7 @@ input:focus, select:focus {
     margin-top: 5px;
 }
 
-/* ===================== ANIMAÇÕES GERAIS ===================== */
+/* >>>>> animacoes GERAIS <<<<<< */
 .section {
     opacity: 0;
     transform: translateY(40px);
@@ -287,7 +287,7 @@ input:focus, select:focus {
 }
 
 
-/* ===================== SELEÇÃO DE SERVIÇOS ===================== */
+/* >>>>> selecao de servicos <<<<< */
 
 .servico-card {
     cursor: pointer;
@@ -296,7 +296,7 @@ input:focus, select:focus {
     border: 3px solid transparent;
 }
 
-/* ESTADO SELECIONADO */
+/* estado selec */
 .servico-card.selected {
     border-color: #ff4fa1;
     background: #ffd8eb;
@@ -304,7 +304,7 @@ input:focus, select:focus {
     box-shadow: 0 10px 25px rgba(255, 79, 161, 0.35);
 }
 
-/* CHECK DE CONFIRMAÇÃO */
+/* check de config */
 .servico-card.selected::after {
     content: "✔";
     position: absolute;
@@ -323,7 +323,7 @@ input:focus, select:focus {
     100% { transform: scale(1); opacity: 1; }
 }
 
-/* ===================== RESUMO DOS SERVIÇOS ===================== */
+/* >>>>>> resumo dos servicos <<<<<<< */
 #resumo-box {
     margin-top: 35px;
     padding: 22px;
@@ -416,7 +416,7 @@ input:focus, select:focus {
     color: #ff4fa1;
 }
 
-/* ===================== RESPONSIVIDADE ===================== */
+/* >>>>>> responsividade <<<<<<< */
 
 /* Smartphones — até 600px */
 @media (max-width: 600px) {
@@ -442,7 +442,7 @@ input:focus, select:focus {
         gap: 10px;
     }
 
-    /* HERO */
+    /* hero */
     .nome {
         font-size: 1.9rem;
     }
@@ -456,18 +456,18 @@ input:focus, select:focus {
         height: 155px;
     }
 
-    /* CARDS DE SERVIÇOS */
+    /* cards e servicos */
     .servico-card {
         max-width: 90%;
         padding: 20px;
     }
 
-    /* RESUMO */
+    /* resumo */
     #resumo-box {
         max-width: 92%;
     }
 
-    /* AGENDAMENTO */
+    /* agendameto */
     .agenda {
         padding-left: 10px;
         padding-right: 10px;
@@ -525,7 +525,7 @@ input:focus, select:focus {
 }
 
 
-/* Desktop grande — acima de 1100px */
+/* Desktop grande  acima de 1100pxx */
 @media (min-width: 1100px) {
 
 
@@ -541,7 +541,7 @@ input:focus, select:focus {
         max-width: 500px;
     }
 
-    /* GRID DE SERVIÇOS */
+    /* grid de servic */
     #servicos {
         grid-template-columns: repeat(2, 350px);
         justify-content: center;
@@ -553,7 +553,6 @@ input:focus, select:focus {
     }
 
 }
-
 
 .dev-footer {
     margin: 1px;
