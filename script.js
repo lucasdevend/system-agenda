@@ -166,7 +166,13 @@ function enviarWhatsApp() {
     window.open(`https://wa.me/5511991421107?text=${msg}`, "_blank");
 
     // Salva no Firebase depois, sem bloquear o popup
-    addDoc(collection(db,"agendamentos"), { nome, data, horario: horarioSelecionado })
+        addDoc(collection(db, "agendamentos"), {
+            nome,
+            data,
+            horario: horarioSelecionado,
+            servicos: selecionados,
+            total
+        })
         .then(() => {
             horarioSelecionado = null;
             horarioSelect.value = "";
