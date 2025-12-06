@@ -116,10 +116,11 @@ dataInput.addEventListener("change", () => {
     const dia = parseInt(partes[2], 10);
 
     const data = new Date(ano, mes, dia);
-    const diaSemana = data.getDay(); // 0 = Domingo, 1 = Segunda, 2 = Terça...
+    const diaSemana = data.getDay(); // 0=Dom, 1=Seg, 2=Ter...
 
-    if (diaSemana !== 0 && diaSemana !== 2) {
-        avisoDias.style.display = "block"; // mostra aviso
+    // ✅  aceita apenas TERÇAS (2)
+    if (diaSemana !== 2) {
+        avisoDias.style.display = "block";
         dataInput.value = "";
         horarioSelecionado = null;
         horariosOcupados = [];
@@ -127,11 +128,12 @@ dataInput.addEventListener("change", () => {
         return;
     }
 
-    avisoDias.style.display = "none"; // esconde aviso se dia válido
+    avisoDias.style.display = "none";
     horarioSelecionado = null;
     horariosOcupados = [];
     ouvirHorariosOcupados(dataInput.value);
 });
+
 
 /* <<<<<< funcao zap >>>>>>> */
 function enviarWhatsApp() {
